@@ -1,4 +1,4 @@
-# Feing facilita crear clientes java http de forma sencilla
+# Feing facilita crear clientes http usando Java
 
 [![Join the chat at https://gitter.im/Netflix/feign](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Netflix/feign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Feign es una envoltura de invocaciones http a java inspirado por [Retrofit](https://github.com/square/retrofit), [JAXRS-2.0](https://jax-rs-spec.java.net/nonav/2.0/apidocs/index.html), y [WebSocket](http://www.oracle.com/technetwork/articles/java/jsr356-1937161.html).  El primero objetivo de Feign fue reducir la complejidad de envolver [Denominator](https://github.com/Netflix/Denominator) de manera uniforma a los apis http sin importar el estilo [restfulness](http://www.slideshare.net/adrianfcole/99problems).
