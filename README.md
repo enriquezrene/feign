@@ -1,19 +1,19 @@
-# Feign makes writing java http clients easier
+# Feing facilita crear clientes java http de forma sencilla
 
 [![Join the chat at https://gitter.im/Netflix/feign](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Netflix/feign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-Feign is a java to http client binder inspired by [Retrofit](https://github.com/square/retrofit), [JAXRS-2.0](https://jax-rs-spec.java.net/nonav/2.0/apidocs/index.html), and [WebSocket](http://www.oracle.com/technetwork/articles/java/jsr356-1937161.html).  Feign's first goal was reducing the complexity of binding [Denominator](https://github.com/Netflix/Denominator) uniformly to http apis regardless of [restfulness](http://www.slideshare.net/adrianfcole/99problems).
+Feign es una envoltura de invocaciones http a java inspirado por [Retrofit](https://github.com/square/retrofit), [JAXRS-2.0](https://jax-rs-spec.java.net/nonav/2.0/apidocs/index.html), y [WebSocket](http://www.oracle.com/technetwork/articles/java/jsr356-1937161.html).  El primero objetivo de Feign fue reducir la complejidad de envolver [Denominator](https://github.com/Netflix/Denominator) de manera uniforma a los apis http sin importar el estilo [restfulness](http://www.slideshare.net/adrianfcole/99problems).
 
-### Why Feign and not X?
+### Por qué Feign y no X?
 
-You can use tools like Jersey and CXF to write java clients for ReST or SOAP services.  You can write your own code on top of http transport libraries like Apache HC.  Feign aims to connect your code to http apis with minimal overhead and code. Via customizable decoders and error handling, you should be able to write to any text-based http api.
+Puedes usar herramientas cono Jersey y CXF para escribir cliente Java para servicios SOAP o REST. Puedes escribir tu propio codigo usando librerias de transporte http como Apache HC. Feign ayuda a conectar tu codigo con apis http con una sobrecarga minima de procesamiento y codigo. Usando decoders personalizados y manejadores de errores, puedes ser capaz de escribir cualquier api http basado en texto.
 
-### How does Feign work?
+### Cómo trabaja Feign?
 
-Feign works by processing annotations into a templatized request.  Just before sending it off, arguments are applied to these templates in a straightforward fashion.  While this limits Feign to only supporting text-based apis, it dramatically simplified system aspects such as replaying requests.  It is also stupid easy to unit test your conversions knowing this.
+Feign trabaja procesando anotaciones dentro de request basados en plantillas. Justo antes de enviarlo, los argumentos son aplicados a estas plantillas de manera sencilla. Mientras esto limita a Feign a solo soportar apis basados en texto, simplifica dramaticamente aspectos del sistema tales como permitir reproducir peticiones. Es estupidamente sencillo realizar pruebas unitarios sobre conversiones conociendo esto.
 
-### Basics
+### Aspectos básicos
 
-Usage typically looks like this, an adaptation of the [canonical Retrofit sample](https://github.com/square/retrofit/blob/master/samples/src/main/java/com/example/retrofit/SimpleService.java).
+El uso normalmente se mira como esto: una adaptacion del uso de [canonical Retrofit sample](https://github.com/square/retrofit/blob/master/samples/src/main/java/com/example/retrofit/SimpleService.java).
 
 ```java
 interface GitHub {
@@ -39,9 +39,9 @@ public static void main(String... args) {
 }
 ```
 
-### Customization
+### Personalización
 
-Feign has several aspects that can be customized.  For simple cases, you can use `Feign.builder()` to construct an API interface with your custom components.  For example:
+Feign tiene varios aspectos que pueden ser personalizados. Para casos simples puedes usar `Feign.builder()` para construir una interface de un API con tus componentes personalizados. Por ejemplo:
 
 ```java
 interface Bank {
@@ -52,26 +52,26 @@ interface Bank {
 Bank bank = Feign.builder().decoder(new AccountDecoder()).target(Bank.class, "https://api.examplebank.com");
 ```
 
-### Multiple Interfaces
-Feign can produce multiple api interfaces.  These are defined as `Target<T>` (default `HardCodedTarget<T>`), which allow for dynamic discovery and decoration of requests prior to execution.
+### Interfaces Multiples
+Feign puede producir multiples api interfaces. Estas son definidas como `Target<T>` (por defecto `HardCodedTarget<T>`), lo cual permite dinamicamente el descrubimiento y decoracion de las peticiones antes de la ejecucion.
 
-For example, the following pattern might decorate each request with the current url and auth token from the identity service.
+Por ejemplo, el siguiente patron podría decorar cada petición con el url actual y el auth token del servicio de identidad.
 
 ```java
 Feign feign = Feign.builder().build();
 CloudDNS cloudDNS = feign.target(new CloudIdentityTarget<CloudDNS>(user, apiKey));
 ```
 
-### Examples
-Feign includes example [GitHub](./example-github) and [Wikipedia](./example-wikipedia) clients. The denominator project can also be scraped for Feign in practice. Particularly, look at its [example daemon](https://github.com/Netflix/denominator/tree/master/example-daemon).
+### Ejemplos
+Feign incluye clientes de ejemplo [GitHub](./example-github) y [Wikipedia](./example-wikipedia). El proyecto denominator tambien puede ser usado para Feign en la práctica. De manera particular, mira ésto [example daemon](https://github.com/Netflix/denominator/tree/master/example-daemon).
 
-### Integrations
-Feign intends to work well within Netflix and other Open Source communities.  Modules are welcome to integrate with your favorite projects!
+### Integraciones
+Feign tiene la intención de realizar un buen trabajao dentro de Netflix y otras comunidades Open Source. Los modulos son bienvenidos para ser integrado con tus proyectos favoritos!
 
 ### Gson
-[Gson](./gson) includes an encoder and decoder you can use with a JSON API.
+[Gson](./gson) incluye un codificador y decodificador que puedes usarlo con un API JSON.
 
-Add `GsonEncoder` and/or `GsonDecoder` to your `Feign.Builder` like so:
+Agrega `GsonEncoder` y/o `GsonDecoder` a tu `Feign.Builder` así:
 
 ```java
 GsonCodec codec = new GsonCodec();
@@ -82,9 +82,9 @@ GitHub github = Feign.builder()
 ```
 
 ### Jackson
-[Jackson](./jackson) includes an encoder and decoder you can use with a JSON API.
+[Jackson](./jackson) incluye un codificador y decodificador que puedes usarlo con un API JSON.
 
-Add `JacksonEncoder` and/or `JacksonDecoder` to your `Feign.Builder` like so:
+Agrega `JacksonEncoder` y/o `JacksonDecoder` a tu `Feign.Builder` así:
 
 ```java
 GitHub github = Feign.builder()
@@ -94,9 +94,9 @@ GitHub github = Feign.builder()
 ```
 
 ### Sax
-[SaxDecoder](./sax) allows you to decode XML in a way that is compatible with normal JVM and also Android environments.
+[SaxDecoder](./sax) permite decodificar XML de forma que es compatible con la JVM normal y también ambientes Android.
 
-Here's an example of how to configure Sax response parsing:
+Aquí un ejemplo de como configurar un análisis sintáctico de un reponse Sax:
 ```java
 api = Feign.builder()
            .decoder(SAXDecoder.builder()
@@ -106,9 +106,9 @@ api = Feign.builder()
 ```
 
 ### JAXB
-[JAXB](./jaxb) includes an encoder and decoder you can use with an XML API.
+[JAXB](./jaxb) incluye un codificador y decodificador que puedes usarlo con un API XML.
 
-Add `JAXBEncoder` and/or `JAXBDecoder` to your `Feign.Builder` like so:
+Agrega `JAXBEncoder` y/o `JAXBDecoder` a tu `Feign.Builder` así:
 
 ```java
 api = Feign.builder()
@@ -118,9 +118,9 @@ api = Feign.builder()
 ```
 
 ### JAX-RS
-[JAXRSContract](./jaxrs) overrides annotation processing to instead use standard ones supplied by the JAX-RS specification.  This is currently targeted at the 1.1 spec.
+[JAXRSContract](./jaxrs) sobreescribe el procesamiento de las anotaciones para en su lugar usar el estandar provisto por la especificación JAX-RS. Actualmente esta orientado a la versión 1.1 spec.
 
-Here's the example above re-written to use JAX-RS:
+Aquí puedes ver el ejemplo anterior re-escrito para usar JAX-RS:
 ```java
 interface GitHub {
   @GET @Path("/repos/{owner}/{repo}/contributors")
@@ -133,9 +133,9 @@ GitHub github = Feign.builder()
                      .target(GitHub.class, "https://api.github.com");
 ```
 ### OkHttp
-[OkHttpClient](./okhttp) directs Feign's http requests to [OkHttp](http://square.github.io/okhttp/), which enables SPDY and better network control.
+[OkHttpClient](./okhttp) direcciona las peticiones http de Feign a [OkHttp](http://square.github.io/okhttp/), lo cual habilita SPDY y un mejor control de la red.
 
-To use OkHttp with Feign, add the OkHttp module to your classpath. Then, configure Feign to use the OkHttpClient:
+Para usar OkHttp con Feign, agrega el modulo OkHttp a tu classpath. Luego, configura Feign para usar OkHttpClient:
 
 ```java
 GitHub github = Feign.builder()
@@ -144,18 +144,18 @@ GitHub github = Feign.builder()
 ```
 
 ### Ribbon
-[RibbonClient](./ribbon) overrides URL resolution of Feign's client, adding smart routing and resiliency capabilities provided by [Ribbon](https://github.com/Netflix/ribbon).
+[RibbonClient](./ribbon) sobre-escribe la resolución del URL del cliente de Feign, agrega un ruteo inteligente y capacidades de recuperación provistas por [Ribbon](https://github.com/Netflix/ribbon).
 
-Integration requires you to pass your ribbon client name as the host part of the url, for example `myAppProd`.
+La integración requiere que tu pases el nombre de tu cliente ribbon, como si fuera el host del url, por ejemplo `myAppProd`.
 ```java
 MyService api = Feign.builder().client(RibbonClient.create()).target(MyService.class, "https://myAppProd");
 
 ```
 
 ### Hystrix
-[HystrixFeign](./hystrix) configures circuit breaker support provided by [Hystrix](https://github.com/Netflix/Hystrix).
+[HystrixFeign](./hystrix) configura soporte para circuit breaker provisto por [Hystrix](https://github.com/Netflix/Hystrix).
 
-To use Hystrix with Feign, add the Hystrix module to your classpath. Then use the `HystrixFeign` builder:
+Para usar Hystrix con Feign, agrega el modulo Hystrix a tu classpath. Luego usa el builder `HystrixFeign`:
 
 ```java
 MyService api = HystrixFeign.builder().target(MyService.class, "https://myAppProd");
@@ -163,9 +163,9 @@ MyService api = HystrixFeign.builder().target(MyService.class, "https://myAppPro
 ```
 
 ### SLF4J
-[SLF4JModule](./slf4j) allows directing Feign's logging to [SLF4J](http://www.slf4j.org/), allowing you to easily use a logging backend of your choice (Logback, Log4J, etc.)
+[SLF4JModule](./slf4j) permite dirigir los logs de Feign hacia [SLF4J](http://www.slf4j.org/), permitiendo facilmente usar el componente de logs de backend que tu escojas (Logback, Log4J, etc.)
 
-To use SLF4J with Feign, add both the SLF4J module and an SLF4J binding of your choice to your classpath.  Then, configure Feign to use the Slf4jLogger:
+Para usar SLF4J con Feign, agrega ambas cosas, el módulo SLF4J y el binding SLF4J de tu elección al classpath. Luego, configura Feign para usar Slf4jLogger:
 
 ```java
 GitHub github = Feign.builder()
@@ -173,12 +173,12 @@ GitHub github = Feign.builder()
                      .target(GitHub.class, "https://api.github.com");
 ```
 
-### Decoders
-`Feign.builder()` allows you to specify additional configuration such as how to decode a response.
+### Decodificadores
+`Feign.builder()` permite especificar configuración adicional acerca de como decodificar un response.
 
-If any methods in your interface return types besides `Response`, `String`, `byte[]` or `void`, you'll need to configure a non-default `Decoder`.
+Si alguno de los métodos en tu interface retornan otros tipos además de `Response`, `String`, `byte[]` or `void`, necesitarás configurar un `Decoder` distinto al que está configurado por defecto.
 
-Here's how to configure JSON decoding (using the `feign-gson` extension):
+Aquí puedes ver como configurar una decodificación JSON (usando la extensión `feign-gson`):
 
 ```java
 GitHub github = Feign.builder()
@@ -186,8 +186,8 @@ GitHub github = Feign.builder()
                      .target(GitHub.class, "https://api.github.com");
 ```
 
-### Encoders
-The simplest way to send a request body to a server is to define a `POST` method that has a `String` or `byte[]` parameter without any annotations on it. You will likely need to add a `Content-Type` header.
+### Codificadores
+La forma mas sencilla de enviar el cuerpo de una petición hacia un servidor es definir un método `POST` que tiene un parametro `String` o `byte[]` sin ninguna anotación sobre él. Es probable que necesites agregar una cabecera `Content-Type`.
 
 ```java
 interface LoginClient {
@@ -199,7 +199,7 @@ interface LoginClient {
 client.login("{\"user_name\": \"denominator\", \"password\": \"secret\"}");
 ```
 
-By configuring an `Encoder`, you can send a type-safe request body. Here's an example using the `feign-gson` extension:
+Al configurar un `Encoder`, puedes enviar el cuerpo de la petición asegurandote que no haya errores en él al construirlo. Aquí un ejemplo usando la extensión `feign-gson`:
 
 ```java
 static class Credentials {
@@ -225,7 +225,7 @@ client.login(new Credentials("denominator", "secret"));
 ```
 
 ### @Body templates
-The `@Body` annotation indicates a template to expand using parameters annotated with `@Param`. You will likely need to add a `Content-Type` header.
+La anotación `@Body` indica una plantilla para expandir el uso de parametros anotados con `@Param`. Probablemente necesitarás agregar la cabecera `Content-Type`.
 
 ```java
 interface LoginClient {
@@ -247,14 +247,12 @@ client.json("denominator", "secret"); // {"user_name": "denominator", "password"
 ```
 
 ### Headers
-Feign supports settings headers on requests either as part of the api or as part of the client
-dending on the use case.
+Feign soporta configuraciones de cabeceras como parte del api o como parte del cliente dependiendo del caso de uso.
 
-#### Set headers using apis
-In cases where specific interfaces or calls should always have certain header values set, it
-makes sense to define headers as part of the api.
+#### Set de headers (cabeceras) usando apis
+En casos donde ciertas interfaces o llamadas deban siempre tener ciertos valores de las cabeceras configurados, tiene sentido definir cabeceras como parte del api.
 
-Static headers can be set on an api interface or method using the `@Headers` annotation.
+Cabeceras estaticas pueden ser configuradas sobre una interface del api o sobre un metodo usando la anotación `@Headers`.
 
 ```java
 @Headers("Accept: application/json")
@@ -265,7 +263,7 @@ interface BaseApi<V> {
 }
 ```
 
-Methods can specify dynamic content for static headers using using variable expansion in `@Headers`.
+Los métodos pueden especificar contenido dinámico para las cabeceras estáticas usando una variable de expansion en `@Headers`.
 
 ```java
  @RequestLine("POST /")
@@ -273,27 +271,21 @@ Methods can specify dynamic content for static headers using using variable expa
  void post(@Param("token") String token);
 ```
 
-In cases where both the header field keys and values are dynamic and the range of possible keys cannot
-be known ahead of time and may vary between different method calls in the same api/client (e.g. custom
-metadata header fields such as "x-amz-meta-\*" or "x-goog-meta-\*"), a Map parameter can be annotated
-with `HeaderMap` to construct a query that uses the contents of the map as its header parameters.
+En casos donde los nombres y valores de los campos de las cabeceras son dinámicos y el rango de posibles nombres de campos no pueda se conocido a priori y pueda haber variaciones entre las diferentes invocaciones a los metodos en el mismo api/client (por ejemplo: campos de la cabecera personalizados para la metadata "x-amz-meta-\*" o "x-goog-meta-\*"), un parametro Map puede ser anotado con `HeaderMap` para construir una consulta que use el contenido del mapa para construir una consulta que use el contenido del mapa como parámetros de la cabera
 
 ```java
  @RequestLine("POST /")
  void post(@HeaderMap Map<String, Object> headerMap);
 ```
 
-These approaches specify header entries as part of the api and do not require any customizations
-when building the Feign client.
+Estos enfoques especifican campos en la cabecera como parte del api y no requieren personalización cuando construyes un cliente Feign.
 
-#### Setting headers per target
-In cases where headers should differ for the same api based on different endpoints or where per-request
-customization is required, headers can be set as part of the client using a `RequestInterceptor` or a
-`Target`.
+#### Configurar cabeceras por target
+En casos donde las cabeceras deberían diferir por el mismo api que esta basado en distintos endpoints o donde se requiera una personalización per-request, las cabeceras pueden ser configuradas como parte del cliente usando un `RequestInterceptor` o un `Target`.
 
-For an example of setting headers using a `RequestInterceptor`, see the `Request Interceptors` section.
+Para un ejemplo de configuración de cabeceras usando un `RequestInterceptor`, mira la sección `Request Interceptors`.
 
-Headers can be set as part of a custom `Target`.
+Las cabeceras pueden ser configuradas como parte de un `Target` personalizado.
 
 ```java
   static class DynamicAuthTokenTarget<T> implements Target<T> {
@@ -318,19 +310,19 @@ Headers can be set as part of a custom `Target`.
           .target(new DynamicAuthTokenTarget(Bank.class, provider, requestIdProvider));
 ```
 
-These approaches depend on the custom `RequestInterceptor` or `Target` being set on the Feign
-client when it is built and can be used as a way to set headers on all api calls on a per-client
-basis. This can be useful for doing things such as setting an authentication token in the header
-of all api requests on a per-client basis. The methods are run when the api call is made on the
-thread that invokes the api call, which allows the headers to be set dynamically at call time and
-in a context-specific manner -- for example, thread-local storage can be used to set different
-header values depending on the invoking thread, which can be useful for things such as setting
-thread-specific trace identifiers for requests.
+Estos enfoques dependen de los objetos personalizados: `RequestInterceptor` o `Target` que estan siendo configurados
+sobre el cliente Feign cuando es construido y puede ser usado como una forma para asignar cabeceras sobre todas las
+llamadas al api on por cada cliente. 
+Los métodos se ejecutan cuando la llamada al api es realizada sobre el thread que invoca la llamada al api, 
+lo cual permite que las cabeceras sean asignadas dinamicamente al momento de la invocación y de alguna manera dentro de 
+un contexto específico -- por ejemplo, un almacen thread-local puede ser usado para configurar diferentes valores en la
+cabecera dependiendo del thread que realiza la invocación, lo cual puede ser de mucha ayuda para cosas tales como 
+configurar rastros de indentificadores especificos por cada thread en las invocaciones.
 
-### Advanced usage
+### Uso avanzado
 
 #### Base Apis
-In many cases, apis for a service follow the same conventions. Feign supports this pattern via single-inheritance interfaces.
+En varios casos, los apis para un servicio siguen las mismas convenciones. Feign soportan este patrón a traves de herencia simple en las interfaces.
 
 Consider the example:
 ```java
@@ -343,7 +335,7 @@ interface BaseAPI {
 }
 ```
 
-You can define and target a specific api, inheriting the base methods.
+Puedes definir y apuntar hacia un api específico, heredando los metodos base.
 ```java
 interface CustomAPI extends BaseAPI {
   @RequestLine("GET /custom")
@@ -351,7 +343,7 @@ interface CustomAPI extends BaseAPI {
 }
 ```
 
-In many cases, resource representations are also consistent. For this reason, type parameters are supported on the base api interface.
+En varios casos, las representaciones de los recursos también son consistentes. Por esta razón, los tipos de parametros son soportados sobre la base de la interface del api.
 
 ```java
 @Headers("Accept: application/json")
@@ -374,7 +366,7 @@ interface BarApi extends BaseApi<Bar> { }
 ```
 
 #### Logging
-You can log the http messages going to and from the target by setting up a `Logger`.  Here's the easiest way to do that:
+Puedes logear los mensajes http que van a y desde el target configurando un `Logger`.  Aquí esta la forma mas fácil de hacerlo:
 ```java
 GitHub github = Feign.builder()
                      .decoder(new GsonDecoder())
@@ -383,12 +375,12 @@ GitHub github = Feign.builder()
                      .target(GitHub.class, "https://api.github.com");
 ```
 
-The SLF4JLogger (see above) may also be of interest.
+El SLF4JLogger (mira lo anterior) podría también ser de interes.
 
 
-#### Request Interceptors
-When you need to change all requests, regardless of their target, you'll want to configure a `RequestInterceptor`.
-For example, if you are acting as an intermediary, you might want to propagate the `X-Forwarded-For` header.
+#### Request Interceptors / Interceptores de peticiones
+Cuando necesitas cambiar todos las peticiones, sin importar su target (destino), tu vas a deseas configurar un `RequestInterceptor`.
+Por ejemplo, si actuas como intermediario, podrías deseas propagar la cabecera `X-Forwarded-For`.
 
 ```java
 static class ForwardedForInterceptor implements RequestInterceptor {
@@ -403,7 +395,7 @@ Bank bank = Feign.builder()
                  .target(Bank.class, "https://api.examplebank.com");
 ```
 
-Another common example of an interceptor would be authentication, such as using the built-in `BasicAuthRequestInterceptor`.
+Otro ejemplo común de in interceptor podría ser autenticación, tal como usar el ya construido `BasicAuthRequestInterceptor`.
 
 ```java
 Bank bank = Feign.builder()
@@ -413,16 +405,15 @@ Bank bank = Feign.builder()
 ```
 
 #### Custom @Param Expansion
-Parameters annotated with `Param` expand based on their `toString`. By
-specifying a custom `Param.Expander`, users can control this behavior,
-for example formatting dates.
+Los parámetros anotados con `Param` se extienden basandose en el uso de su `toString`. Al especificar un `Param.Expander` personalizado, 
+los usuarios pueden controlar este comportamiento, por ejemplo formateando fechas.
 
 ```java
 @RequestLine("GET /?since={date}") Result list(@Param(value = "date", expander = DateToMillis.class) Date date);
 ```
 
 #### Dynamic Query Parameters
-A Map parameter can be annotated with `QueryMap` to construct a query that uses the contents of the map as its query parameters.
+Un parámetro Map puede ser anotado con `QueryMap` para contruir un query que use el contenido del mapa como query parameters.
 
 ```java
 @RequestLine("GET /find")
@@ -430,9 +421,9 @@ V find(@QueryMap Map<String, Object> queryMap);
 ```
 
 #### Static and Default Methods
-Interfaces targeted by Feign may have static or default methods (if using Java 8+).
-These allows Feign clients to contain logic that is not expressly defined by the underlying API.
-For example, static methods make it easy to specify common client build configurations; default methods can be used to compose queries or define default parameters.
+Las interfaces a las cuales deseas apuntar usando Feign pueden tener metodos por defecto o estáticos (si usas Java 8+).
+Estas permiten que los clientes de Feign contengan lógica que no es expresamente definida por el API en cuestión.
+Por ejemplo, los metodos estáticos facilitan especificar configuraciones comunes de construcciónn del cliente; los metodos por defecto pueden ser usados para formar queries o definir parametros por defecto.
 
 ```java
 interface GitHub {
