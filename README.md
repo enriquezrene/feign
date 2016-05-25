@@ -1,15 +1,15 @@
 # Feing facilita crear clientes http usando Java
 
 [![Join the chat at https://gitter.im/Netflix/feign](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Netflix/feign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-Feign es una envoltura de invocaciones http a java inspirado por [Retrofit](https://github.com/square/retrofit), [JAXRS-2.0](https://jax-rs-spec.java.net/nonav/2.0/apidocs/index.html), y [WebSocket](http://www.oracle.com/technetwork/articles/java/jsr356-1937161.html).  El primero objetivo de Feign fue reducir la complejidad de envolver [Denominator](https://github.com/Netflix/Denominator) de manera uniforma a los apis http sin importar el estilo [restfulness](http://www.slideshare.net/adrianfcole/99problems).
+Feign es una envoltura de invocaciones http a java inspirado por [Retrofit](https://github.com/square/retrofit), [JAXRS-2.0](https://jax-rs-spec.java.net/nonav/2.0/apidocs/index.html), y [WebSocket](http://www.oracle.com/technetwork/articles/java/jsr356-1937161.html).  El primer objetivo de Feign fue reducir la complejidad de envolver [Denominator](https://github.com/Netflix/Denominator) de manera uniforme a los apis http sin importar el estilo [restfulness](http://www.slideshare.net/adrianfcole/99problems).
 
 ### Por qué Feign y no X?
 
-Puedes usar herramientas cono Jersey y CXF para escribir cliente Java para servicios SOAP o REST. Puedes escribir tu propio codigo usando librerias de transporte http como Apache HC. Feign ayuda a conectar tu codigo con apis http con una sobrecarga minima de procesamiento y codigo. Usando decoders personalizados y manejadores de errores, puedes ser capaz de escribir cualquier api http basado en texto.
+Puedes usar herramientas cono Jersey y CXF para escribir clientes Java para servicios SOAP o REST. Puedes escribir tu propio codigo usando librerias de transporte http como Apache HC. Feign ayuda a conectar tu codigo con apis http con una sobrecarga minima de procesamiento y codigo. Usando decoders personalizados y manejadores de errores, puedes ser capaz de escribir cualquier api http basado en texto.
 
 ### Cómo trabaja Feign?
 
-Feign trabaja procesando anotaciones dentro de request basados en plantillas. Justo antes de enviarlo, los argumentos son aplicados a estas plantillas de manera sencilla. Mientras esto limita a Feign a solo soportar apis basados en texto, simplifica dramaticamente aspectos del sistema tales como permitir reproducir peticiones. Es estupidamente sencillo realizar pruebas unitarios sobre conversiones conociendo esto.
+Feign trabaja procesando anotaciones dentro de request basados en plantillas. Justo antes de enviarlo, los argumentos son aplicados a estas plantillas de manera sencilla. Mientras esto limita a Feign a solo soportar apis basados en texto, simplifica dramaticamente aspectos del sistema tales como permitir reproducir peticiones. Es extremadamente sencillo realizar pruebas unitarias sobre las conversiones conociendo esto.
 
 ### Aspectos básicos
 
@@ -53,7 +53,7 @@ Bank bank = Feign.builder().decoder(new AccountDecoder()).target(Bank.class, "ht
 ```
 
 ### Interfaces Multiples
-Feign puede producir multiples api interfaces. Estas son definidas como `Target<T>` (por defecto `HardCodedTarget<T>`), lo cual permite dinamicamente el descrubimiento y decoracion de las peticiones antes de la ejecucion.
+Feign puede producir multiples interfaces para un api. Estas son definidas como `Target<T>` (por defecto `HardCodedTarget<T>`), lo cual permite dinamicamente descubrir y decorar las peticiones antes de ser ejecutadas.
 
 Por ejemplo, el siguiente patron podría decorar cada petición con el url actual y el auth token del servicio de identidad.
 
@@ -63,10 +63,10 @@ CloudDNS cloudDNS = feign.target(new CloudIdentityTarget<CloudDNS>(user, apiKey)
 ```
 
 ### Ejemplos
-Feign incluye clientes de ejemplo [GitHub](./example-github) y [Wikipedia](./example-wikipedia). El proyecto denominator tambien puede ser usado para Feign en la práctica. De manera particular, mira ésto [example daemon](https://github.com/Netflix/denominator/tree/master/example-daemon).
+Feign incluye clientes de ejemplo para [GitHub](./example-github) y [Wikipedia](./example-wikipedia). El proyecto denominator tambien puede ser usado para Feign en la práctica. De manera particular, mira ésto [example daemon](https://github.com/Netflix/denominator/tree/master/example-daemon).
 
 ### Integraciones
-Feign tiene la intención de realizar un buen trabajao dentro de Netflix y otras comunidades Open Source. Los modulos son bienvenidos para ser integrado con tus proyectos favoritos!
+Feign tiene la intención de realizar un buen trabajao dentro de Netflix y otras comunidades Open Source. Los modulos son bienvenidos para ser integrados con tus proyectos favoritos!
 
 ### Gson
 [Gson](./gson) incluye un codificador y decodificador que puedes usarlo con un API JSON.
@@ -94,7 +94,7 @@ GitHub github = Feign.builder()
 ```
 
 ### Sax
-[SaxDecoder](./sax) permite decodificar XML de forma que es compatible con la JVM normal y también ambientes Android.
+[SaxDecoder](./sax) permite decodificar XML de forma que es compatible con la JVM normal y también dentro de ambientes Android.
 
 Aquí un ejemplo de como configurar un análisis sintáctico de un reponse Sax:
 ```java
@@ -118,7 +118,7 @@ api = Feign.builder()
 ```
 
 ### JAX-RS
-[JAXRSContract](./jaxrs) sobreescribe el procesamiento de las anotaciones para en su lugar usar el estandar provisto por la especificación JAX-RS. Actualmente esta orientado a la versión 1.1 spec.
+[JAXRSContract](./jaxrs) sobre-escribe el procesamiento de las anotaciones, para que en su lugar, se haga uso del estandar provisto por la especificación JAX-RS. Actualmente esta orientado a la versión 1.1 spec.
 
 Aquí puedes ver el ejemplo anterior re-escrito para usar JAX-RS:
 ```java
